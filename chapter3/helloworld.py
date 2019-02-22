@@ -2,6 +2,7 @@
 # __author__ = 侠隐七三
 
 def main():
+    # 使用def定义函数
     print("hello world")
     # 读者也可以打印其它的内容到屏幕上，举例如下
     # print(2019.888)
