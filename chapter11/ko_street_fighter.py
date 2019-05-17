@@ -33,14 +33,15 @@ def main():
 
 
     while True:  # 循环语句，不断重复执行下面的代码
+        if fighter <= 0 or chunli <= 0:  # 春丽或boss其中一人血量为0时就退出战斗
+            break
+
         # 执行input函数获得键盘的输入内容
         kungfu = input("\n#--输入以下数字指令来挑战街霸维加:\n<0>气功拳 <1>旋转踢 <2>百裂脚 <3>霸山天升脚\n")
         kungfu = int(kungfu)  # 对输入的字符串类型转换为整型，读者在输入时必须输入有效的数字，否则会抛出异常
                                         # 对于异常的处理，笔者会在后续的教程中进行介绍
 
-        if fighter <= 0 or chunli <= 0:  # 春丽或boss其中一人血量为0时就退出战斗
-            break
-
+     
         is_valid_attack = True  # 定义布尔类型变量is_valid_attack 用来判断春丽是否采取了有效个攻击
         if kungfu >= 0 and kungfu <= 4:
             print("你对街霸使出了{}".format(chunli_kungfu[kungfu]))
