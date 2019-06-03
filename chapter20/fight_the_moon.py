@@ -45,6 +45,9 @@ def main():
     karin = 100  # 定义整型变量karin,用来保存神月卡琳的血量
     chunli = 100  # 定义整型变量chunli，用来保存春丽的血量
 
+    # 定义整型变量super_harms 来保存超必杀招数的伤害值
+    super_harms = 20
+
     # 对战倒计时
     print("3")
     time.sleep(1)
@@ -53,9 +56,6 @@ def main():
     print("1")
     time.sleep(0.2)
     print("Fight!")
-
-    # 定义整型变量super_harms 来保存超必杀懂得伤害值
-    super_harms = 20
 
     # 循环语句，不断重复执行下面的代码
     while True:
@@ -69,7 +69,7 @@ def main():
         chunli_strategy = random.choice(list(chunli_kungfu.keys()))
         karin_strategy = random.choice(list(karin_kungfu.keys()))
 
-        # 随机获取0到11之间的数字，在与2进行取模运算
+        # 随机获取0到11之间的数字，再与2进行取模运算
         random_key = random.randint(0, 11) % 2
 
         # random_key为偶数时表示春丽先发起攻击，否则表示神月卡琳先发起攻击
@@ -77,25 +77,29 @@ def main():
             if chunli_strategy != "失误" and karin_strategy != "失误":
                 print("-- 春丽对神月卡琳使用了{0}, 神月卡琳使用{1}进行了回击".
                       format(chunli_strategy, karin_strategy))
-            elif chunli_strategy == "失误":
+            elif chunli_strategy == "失误" and karin_strategy != "失误":
                 print("-- 春丽攻击神月卡琳产生了{0}, 神月卡琳使用{1}进行了回击".
                       format(chunli_strategy, karin_strategy))
+            elif chunli_strategy != "失误" and karin_strategy == "失误":
+                print("-- 春丽攻击对神月卡琳使用了{0}, 神月卡琳在回击时产生了{1}".
+                      format(chunli_strategy, karin_strategy)) 
             else:
-                print("-- 春丽对神月卡琳使用了{0}, 神月卡琳在回击中产生了{1}".
-                      format(chunli_strategy, karin_strategy))
+                continue
         else:
             if chunli_strategy != "失误" and karin_strategy != "失误":
                 print("-- 神月卡琳对春丽使用了{1}, 春丽使用{0}进行了回击".
                       format(chunli_strategy, karin_strategy))
-            elif karin_strategy == "失误":
+            elif karin_strategy == "失误" and chunli_strategy != "失误":
                 print("-- 神月卡琳攻击春丽时产生了{1}, 春丽使用{0}进行了回击".
                       format(chunli_strategy, karin_strategy))
-            else:
-                print("-- 神月卡琳对春丽使用了{1}, 春丽在回击中产生了{0}".
+            elif karin_strategy != "失误" and chunli_strategy == "失误":
+                print("-- 神月卡琳攻击春丽时使用了{1}, 春丽在回击时产生了{0}".
                       format(chunli_strategy, karin_strategy))
+            else:
+                continue
 
 
-        # 这里使用了in操作符 来判断元素是否在列表中
+        # 这里使用了in操作符来判断元素是否在列表中
         if chunli_strategy == "原地蹲防" or karin_strategy in ["原地蹲防", "回血"]:
             continue     # continue语句表示跳过接下来的代码，继续下一轮循环
 
