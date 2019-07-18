@@ -71,11 +71,14 @@ def build_inverse_index_table():
     '''
 
     inverse_index_table = {}
-
     web_pages_length = len(WEB_PAGES)
-    page_unique_keys = set()
 
-    # 逐一遍历列表中的网页，内置函数enumerate可以返回列表的索引和值
+    '''
+    在for循环中逐一遍历列表中的网页，内置函数enumerate可以返回列表的索引和值
+    假设列表为['a','b','c'] 
+    那么在for循环中通过enumerate函数遍历出的为如下索引值对:
+    索引0，值'a',索引1，值'b'，索引2，值'c'，其它的同理
+    '''
     for index, web_page in enumerate(WEB_PAGES):
         # 对web_page进行分词
         terms, terms_length = cut(web_page)
@@ -83,23 +86,19 @@ def build_inverse_index_table():
             # 计算term的tf值
             tf = round(terms[term] / terms_length, 4)
             page = {"content": web_page, "tf": tf}
-            key = "{}:{}".format(term, index)
             if term not in inverse_index_table:
                 inverse_index_table[term] = [page]
-                page_unique_keys.add(key)
-
-            # 如果key存在于集合page_unique_keys中
-            # 则表示是当前网页中已统计过的key
-            if key in page_unique_keys:
                 continue
-
+            # 如果term已存在于倒排表中，那么当前的term肯定是其它网页的term
+            # 其它网页的term被添加进列表中，方便后续计算tf-idf
             inverse_index_table[term].append(page)
 
     for _, pages in inverse_index_table.items():
         terms_in_docs_length = len(pages)
         for page in pages:
             # 计算term的idf和tf-idf值
-            page["idf"] = round(math.log10(web_pages_length / terms_in_docs_length), 4)
+            page["idf"] = round(math.log10(web_pages_length / terms_in_docs_length)
+                                , 4)
             page["tfidf"] = page["tf"] * page["idf"]
 
     return inverse_index_table
@@ -133,10 +132,10 @@ if __name__ == "__main__":
                   "超杀女", "蝴蝶刀", "武士刀", "枪械",
                   "暴力萝莉", "杀人不眨眼", "hit girl"}
 
-    WEB_PAGES = [web_page1, web_page2, web_page3]
     # 词典中最常的词为"hit girl",长度为8
-    # 读者可以自行写个函数，来计算集合中最常词语的宽度，这留作课后习题
+    # 读者可以自行写个函数，来计算集合中最长词语的宽度，这留作课后习题
 
+    WEB_PAGES = [web_page1, web_page2, web_page3]
     THE_MAX_LENGTH_OF_WORD = 8
 
     inverse_index_table = build_inverse_index_table()
